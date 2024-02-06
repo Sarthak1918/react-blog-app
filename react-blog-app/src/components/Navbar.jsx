@@ -1,43 +1,69 @@
 import React from 'react'
-import Logo from './Logo'
+import { Logo, LogoutBtn, ThemeSwitcher } from './index'
+import { useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom";
+
 
 function Navbar() {
+  const authStatus = useSelector((state) => state.auth.status)
+
+  const navigate = useNavigate()
 
 
   const navItems = [
     {
-      name:"Home",
-      slug : "/"
+      name: "Home",
+      slug: "/",
+      active: true
     },
     {
-      name:"All Posts",
-      slug : "all-posts"
+      name: "Login",
+      slug: "/login",
+      active: !authStatus
     },
     {
-      name:"Add Post",
-      slug : "add-post"
+      name: "Signup",
+      slug: "/signup",
+      active: !authStatus
+    },
+    {
+      name: "All Posts",
+      slug: "all-posts",
+      active: authStatus
+    },
+    {
+      name: "Add Post",
+      slug: "add-post",
+      active: authStatus
     }
   ]
   return (
     <div className='w-full p-4 flex justify-between items-center'>
-        <div>
-          <Logo size={"4xl"}/>
-        </div>
-        <ul className='flex gap-4 items-center'>
-          {
-            navItems.map((item)=>{
-              return(
-                <li key={item.name} className='hover:bg-blue-100  px-3 py-1 rounded-full font-medium transition-all'>
-                  <button>{item.name}</button>
-                </li>
-              )
-            })
-          }
-        </ul>
+      <Link to={"/"}>
+        <Logo size={"text-3xl"} />
+      </Link>
 
-        <div className='font-semibold'>
-          <button type="submit" className='hover:bg-blue-100 px-3 py-1 rounded-full font-medium transition-all'>Sign up</button>
-        </div>
+      <ul className='flex gap-4 items-center'>
+        {
+          navItems.map((item) => {
+            return (
+              item.active ?
+                <li key={item.name} className='hover:bg-blue-100  px-3 py-1 rounded-full font-medium transition-all'>
+                  <button onClick={()=>navigate(item.slug)}>{item.name}</button>
+                </li>
+                : null
+            )
+          })
+        }
+        {authStatus &&(<li>
+          <LogoutBtn/>
+        </li>) }
+      </ul>
+
+      <div>
+        <ThemeSwitcher/>
+      </div>
+
     </div>
   )
 }

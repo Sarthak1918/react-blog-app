@@ -1,10 +1,8 @@
 import React from 'react'
 
-function Logo({size,color}) {
+function Logo({size = "text-4xl",color}) {
   return (
-    <div>
-        <h1 className={`logo text-xl text-${size} text-${color}`}>Blogie.</h1>
-    </div>
+        <h1 className={`logo ${size} text-${color}`}>Blogie.</h1>
   )
 }
 

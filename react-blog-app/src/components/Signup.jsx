@@ -6,7 +6,7 @@ function Signup() {
         <div className='w-full flex justify-center pt-20'>
             <div className='bg-slate-700 w-[500px] rounded-2xl p-10'>
                 <div className='w-full flex justify-center items-center'>
-                    <Logo size={"2xl"} color={"white"} />
+                    <Logo size={"text-2xl"} color={"white"} />
                 </div>
                 <form className="max-w-md mx-auto mt-8 text-white">
                     <div className="block mb-4">
