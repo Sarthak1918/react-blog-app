@@ -43,12 +43,12 @@ function Navbar() {
         <Logo size={"text-3xl"} />
       </Link>
 
-      <ul className='flex gap-4 items-center'>
+      <ul className='flex gap-4 items-center font-semibold text-sm'>
         {
           navItems.map((item) => {
             return (
               item.active ?
-                <li key={item.name} className='hover:bg-blue-100  px-3 py-1 rounded-full font-medium transition-all'>
+                <li key={item.name} className='hover:bg-blue-100  px-3 py-1 rounded-full transition-all'>
                   <button onClick={()=>navigate(item.slug)}>{item.name}</button>
                 </li>
                 : null

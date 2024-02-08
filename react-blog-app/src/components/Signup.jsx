@@ -1,7 +1,34 @@
 import React from 'react'
-import Logo from './Logo'
+import { Logo, Button, Input } from './index.js'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import authService from '../appwrite/auth.js'
+import { login as authLogin } from '../store/authSlice.js'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from "react-redux"
 
 function Signup() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [error, setError] = useState("")
+    const { register, handleSubmit } = useForm()
+
+    async function signup(data) {
+        try {
+            const user = await authService.createAccount(data)
+            if (user) {
+                const userData = await authService.getCurrentUser()
+                if (userData) {
+                    dispatch(authLogin(userData))
+                }
+                navigate("/")
+            }
+        } catch (error) {
+            setError(error.message)
+        }
+
+    }
+
     return (
         <div className='w-full flex justify-center pt-20'>
             <div className='bg-slate-700 w-[500px] rounded-2xl p-10'>
@@ -9,42 +36,45 @@ function Signup() {
                     <Logo size={"text-2xl"} color={"white"} />
                 </div>
                 <form className="max-w-md mx-auto mt-8 text-white">
-                    <div className="block mb-4">
-                        <label>Username:</label>
-                        <input
-                            type="text"
-                            className="form-input mt-1 block w-full rounded-md p-1  outline-none bg-blue-100 text-black"
-                        />
-                    </div>
+                    <Input
+                        label="Username: "
+                        type="text"
+                        placeholder="Enter Full name"
+                        required
+                        {...register("name", {
+                            required: true
+                        })}
+                    />
 
-                    <div className="block mb-2">
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            className="form-input mt-1 block w-full rounded-md p-1  outline-none bg-blue-100 text-black"
-                        />
-                    </div>
+                    <Input
+                        label="Email: "
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                        {...register("email", {
+                            required: true,
+                            validate: {
+                                matchPattern: (value) => /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(value)
+                                    || "Enter a valid email address",
+                            }
+                        })}
+                    />
 
-                    <div className="block mb-2">
-                        <label>Password:</label>
-                        <input
-                            type="password"
-                            className="form-input mt-1 block w-full rounded-md p-1  outline-none bg-blue-100 text-black"
-                        />
-                    </div>
+                    <Input
+                        label="Password: "
+                        type="password"
+                        placeholder="Enter your password"
+                        required
+                        {...register("password", {
+                            required: true
+                        })}
+                    />
 
-                    <div className='w-full flex justify-center items-center p-4'>
-                        <button
-                            type="submit"
-                            className="bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-600 transition-all"
-                        >
-                            Sign Up
-                        </button>
-                    </div>
+                    <Button type='submit'>Sign up</Button>
                 </form>
 
-                <div className='flex justify-center w-full text-white'>
-                    <span>Already have account?Login here</span>
+                <div className='flex justify-center w-full text-white text-sm'>
+                    <span>Already have account? <Link to="/login" className='underline'>Login here</Link></span>
                 </div>
             </div>
         </div>

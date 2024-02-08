@@ -1,41 +1,78 @@
-import React from 'react'
-import Logo from './Logo'
+import React, { useState } from 'react'
+import { Logo, Button, Input } from './index.js'
+import { Link, useNavigate } from 'react-router-dom'
+import authService from "../appwrite/auth.js"
+import { login as storeLogin } from '../store/authSlice.js'
+import { useDispatch } from "react-redux"
+import { useForm } from 'react-hook-form'
+
 
 function Login() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const { register, handleSubmit } = useForm()
+    const [error, setError] = useState("");
+
+    async function login(data) {
+        setError("")
+        try {
+            const session = await authService.login(data)
+            if (session) {
+                const userData = await authService.getCurrentUser()
+                if (userData) {
+                    dispatch(storeLogin(data))
+                }
+                navigate("/")
+            }
+        } catch (error) {
+            setError(error.message)
+        }
+
+    }
+
     return (
         <div className='w-full flex justify-center pt-20'>
             <div className='bg-slate-700 w-[500px] rounded-2xl p-10'>
-                <div className='w-full flex justify-center items-center'>
+                <div className='w-full flex flex-col justify-center items-center text-white gap-5'>
                     <Logo size={"text-2xl"} color={"white"} />
+                    <div className='text-sm text-center'>
+                        <h1 >Welcome Back! Login with your Blogie account.</h1>
+                        <h4 className='mt-1 text-red-400 font-semibold'>{error && <h3>{error}</h3>}</h4>
+                    </div>
                 </div>
-                <form className="max-w-md mx-auto mt-8 text-white">
-                    <div className="block mb-2">
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            className="form-input mt-1 block w-full rounded-md p-1  outline-none bg-blue-100 text-black"
-                        />
-                    </div>
+                <form className="max-w-md mx-auto mt-3 text-white"
+                    onSubmit={handleSubmit(login)}
+                >
+                    <Input
+                        label="Email: "
+                        type="email"
+                        placeholder="Enter your email"
+                        required
+                        {...register("email", {
+                            required: true,
+                            validate: {
+                                matchPattern: (value) => /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(value)
+                                 || "Enter a valid email address",
+                            }
+                        })}
+                    />
 
-                    <div className="block mb-2">
-                        <label>Password:</label>
-                        <input
-                            type="password"
-                            className="form-input mt-1 block w-full rounded-md p-1  outline-none bg-blue-100 text-black"
-                        />
-                    </div>
+                    <Input
+                        label="Password: "
+                        type="password"
+                        placeholder="Enter your password"
+                        required
+                        {...register("password",{
+                            required : true
+                        })}
+                    />
 
-                    <div className='w-full flex justify-center items-center p-4'>
-                        <button
-                            type="submit"
-                            className="bg-blue-700 text-white font-bold py-2 px-4 rounded-full hover:bg-blue-600 transition-all"
-                        >
-                            Login
-                        </button>
-                    </div>
+                    <Button>Login</Button>
                 </form>
-                <div className='flex justify-center w-full text-white'>
-                    <span>Don't have account?Sign up here</span>
+
+                <div className='flex justify-center w-full text-white text-sm'>
+                    <span>Don't have any account? <Link to="/signup" className='underline'>Sign up here</Link> </span>
                 </div>
             </div>
         </div>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 import Signup from "./components/Signup"
-import { Navbar } from "./components/index.js"
+import { Navbar, PostCard } from "./components/index.js"
 import { useDispatch } from "react-redux"
 import authService from "./appwrite/auth.js"
 import { login, logout } from "./store/authSlice.js"
 import { Outlet } from "react-router-dom"
 import RTE from "./components/RTE.jsx"
+import Login from "./components/Login.jsx"
 
 
 
@@ -34,7 +35,7 @@ function App() {
       {/* <main>
       <Outlet/>
     </main> */}
-      {/* <Signup/> */}
+    <Signup/>
     </div>
 
   ) : (<div>Loading</div>)
