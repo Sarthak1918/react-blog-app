@@ -35,7 +35,7 @@ function App() {
       {/* <main>
       <Outlet/>
     </main> */}
-    <Signup/>
+    <RTE/>
     </div>
 
   ) : (<div>Loading</div>)
