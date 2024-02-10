@@ -34,8 +34,9 @@ function Signup() {
             <div className='bg-slate-700 w-[500px] rounded-2xl p-10'>
                 <div className='w-full flex justify-center items-center'>
                     <Logo size={"text-2xl"} color={"white"} />
+                    {error&&<h4 className='text-sm text-center'>{error}</h4>}
                 </div>
-                <form className="max-w-md mx-auto mt-8 text-white">
+                <form className="max-w-md mx-auto mt-8 text-white" onSubmit={handleSubmit(signup)}>
                     <Input
                         label="Username: "
                         type="text"

@@ -7,6 +7,7 @@ import { login, logout } from "./store/authSlice.js"
 import { Outlet } from "react-router-dom"
 import RTE from "./components/RTE.jsx"
 import Login from "./components/Login.jsx"
+import PostForm from "./components/PostForm.jsx"
 
 
 
@@ -35,7 +36,7 @@ function App() {
       {/* <main>
       <Outlet/>
     </main> */}
-    <RTE/>
+    <PostForm/>
     </div>
 
   ) : (<div>Loading</div>)

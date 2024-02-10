@@ -4,6 +4,7 @@ function Select({
     options =[],
     label,
     className ='',
+    ...props
 },ref) {
 
     const id = useId()
@@ -11,7 +12,7 @@ function Select({
 
   return (
     <div className='w-full'>
-        {label && <label htmlFor={id}></label>}
+        {label && <label htmlFor={id}>{label}</label>}
         <select 
         id={id} 
         ref={ref}
@@ -20,8 +21,8 @@ function Select({
         bg—blue-100 text-black outline-none w-full duration-200 border border-gray-300  ${className}`}
         >
          {
-            options?.map((option)=>{
-                <option key={option} value={option}>
+            options && options.map((option)=>{
+               return <option key={option} value={option} className='font-semibold'>
                     {option}
                 </option>
             })
