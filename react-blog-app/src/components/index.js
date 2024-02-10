@@ -8,6 +8,10 @@ import Button from "./Button"
 import Select from "./Select"
 import PostCard from "./PostCard"
 import RTE from "./RTE"
+import Signup from "./Signup"
+import Login from "./Login"
+import PostForm from "./PostForm"
+
 
 export {
     Navbar,
@@ -19,5 +23,8 @@ export {
     Button,
     Select,
     PostCard,
-    RTE
+    RTE,
+    Signup,
+    Login,
+    PostForm
 }

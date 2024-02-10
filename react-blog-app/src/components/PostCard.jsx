@@ -1,7 +1,6 @@
 import React from 'react'
 import dbServerice from "../appwrite/dbServerice.js"
 import { Link } from 'react-router-dom'
-import img from "../assets/img1.jpeg"
 
 //$id -> id of a specific post.
 //featuredImage -> id of the image.

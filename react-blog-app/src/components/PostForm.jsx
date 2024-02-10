@@ -86,7 +86,7 @@ function PostForm({ post }) {
 
 
     return (
-        <div className='p-7 flex font-semibold text-sm'>
+        <div className='p-5 flex font-semibold text-sm'>
             <div className='w-2/3 px-5'>
                 <Input
                     label='Title: '
