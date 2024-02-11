@@ -11,6 +11,7 @@ import RTE from "./RTE"
 import Signup from "./Signup"
 import Login from "./Login"
 import PostForm from "./PostForm"
+import AuthLayout from "./AuthLayout"
 
 
 export {
@@ -26,5 +27,6 @@ export {
     RTE,
     Signup,
     Login,
-    PostForm
+    PostForm,
+    AuthLayout
 }

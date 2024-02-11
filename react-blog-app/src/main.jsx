@@ -4,17 +4,83 @@ import App from './App.jsx'
 import './index.css'
 import { Provider } from "react-redux"
 import store from "./store/store.js"
-import { BrowserRouter } from 'react-router-dom'
+import {RouterProvider, createBrowserRouter } from 'react-router-dom'
+import {AuthLayout} from "./components/index.js"
+import Signup from "./components/Pages/Signup.jsx"
+import Login from "./components/Pages/Login.jsx"
+import AllPosts from "./components/Pages/AllPosts.jsx"
+import AddPost from "./components/Pages/AddPost.jsx"
+import AddPost from "./components/Pages/AddPost.jsx"
+import EditPost from "./components/Pages/EditPost.jsx"
+import Post from "./components/Pages/Post.jsx"
 
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+        {
+            path: "/",
+            element: <Home />,
+        },
+        {
+            path: "/login",
+            element: (
+                <AuthLayout authentication={false}>
+                    <Login />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/signup",
+            element: (
+                <AuthLayout authentication={false}>
+                    <Signup />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/all-posts",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <AllPosts />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/add-post",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <AddPost />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/edit-post/:slug",
+            element: (
+                <AuthLayout authentication>
+                    {" "}
+                    <EditPost />
+                </AuthLayout>
+            ),
+        },
+        {
+            path: "/post/:slug",
+            element: <Post />,
+        },
+    ],
+},
+])
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router}/>
     </Provider>
-    </BrowserRouter>
   </React.StrictMode>,
 )

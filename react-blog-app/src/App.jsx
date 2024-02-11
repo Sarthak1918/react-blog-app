@@ -30,9 +30,9 @@ function App() {
   return loading ? (
     <div className="h-screen w-full">
       <Navbar />
-      {/* <main>
+      <main>
       <Outlet/>
-    </main> */}
+    </main>
     
     </div>
 
