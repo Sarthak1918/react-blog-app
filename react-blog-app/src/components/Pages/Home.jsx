@@ -32,7 +32,7 @@ function Home() {
   }
   else if(authStatus && posts.length !== 0 ){
     return(
-        <div className='w-full flex flex-wrap gap-5'>
+        <div className='w-full flex flex-wrap gap-5 p-5'>
         {
             posts.map((post)=>{
                 return <div key={post.$id}>

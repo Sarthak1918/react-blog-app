@@ -31,7 +31,7 @@ class DBservice {
                 title,
                 content,
                 featuredImage,
-                status
+                status,
             })
     }
 
@@ -60,7 +60,7 @@ class DBservice {
 
     async getAllPosts(queries = [Query.equal("status", ["active"])]) {
         try {
-            return await databases.listDocuments(
+            return await this.databases.listDocuments(
                 conf.appwriteDBId,
                 conf.appwriteCollectionId,
                 queries
@@ -76,7 +76,7 @@ class DBservice {
 
     async uploadFile(file) {
         try {
-            return await this.storage.createFile(
+            return await this.bucket.createFile(
                 conf.appwriteBucketId,
                 ID.unique(),                             //when it will be returned this id will be passed as "featuredImage" while creating post.
                 file
@@ -102,7 +102,7 @@ class DBservice {
     }
 
     getFilePreview(fileId){ //here fileID is featuredImage,We will get this when we successfully upload image file
-        return this.storage.getFilePreview(conf.appwriteBucketId, fileId);
+        return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
     }
 
 }

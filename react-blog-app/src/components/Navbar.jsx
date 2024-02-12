@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Logo, LogoutBtn, ThemeSwitcher } from './index'
 import { useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom";
@@ -6,9 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const authStatus = useSelector((state) => state.auth.status)
-
   const navigate = useNavigate()
-
 
   const navItems = [
     {
@@ -60,7 +58,7 @@ function Navbar() {
         </li>) }
       </ul>
 
-      <div>
+      <div className='flex gap-2 items-center'>
         <ThemeSwitcher/>
       </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import dbService from '../../appwrite/dbServerice'
-import PostCard from '../index.js'
+import {PostCard} from '../index.js'
 
 function AllPosts() {
     const[posts,setPosts] = useState([])
@@ -15,7 +15,7 @@ function AllPosts() {
 
     
   return (
-    <div className='w-full flex flex-wrap gap-5'>
+    <div className='w-full flex flex-wrap gap-5 p-5'>
         {
             posts.map((post)=>{
                 return <div key={post.$id}>

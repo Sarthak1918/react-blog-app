@@ -18,7 +18,7 @@ export class AuthService {
 
             if (userAccount) { //it will come inside if   only when the response is successful i.e. the account is being created successfully
                 //login function
-                this.login({ email, password })
+               return this.login({ email, password })
             }
             else {
                 return userAccount;

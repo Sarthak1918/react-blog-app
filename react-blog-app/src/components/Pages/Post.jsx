@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import dbService from "../../appwrite/dbServerice";
-import { Button } from "../index.js";
+import { Button, Container } from "../index.js";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 

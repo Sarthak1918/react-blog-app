@@ -15,18 +15,20 @@ function Login() {
     const [error, setError] = useState("");
 
     async function login(data) {
-        setError("")
         try {
             const session = await authService.login(data)
+            console.log(data,"data");
             if (session) {
                 const userData = await authService.getCurrentUser()
                 if (userData) {
-                    dispatch(storeLogin(data))
+                    dispatch(storeLogin(userData))
+                    console.log(userData,"userData");
+                    console.log("logged in successfully");
                 }
                 navigate("/")
             }
         } catch (error) {
-            setError(error.message)
+            setError(error)
         }
 
     }
@@ -68,7 +70,7 @@ function Login() {
                         })}
                     />
 
-                    <Button>Login</Button>
+                    <Button type='submit'>Login</Button>
                 </form>
 
                 <div className='flex justify-center w-full text-white text-sm'>

@@ -19,6 +19,7 @@ function PostForm({ post }) {
 
 
     async function submit(data) {  //here this data we will get when form is submitted as we are using react-hook-form,we will get data here.
+        console.log(data);
         if (post) {
             //that means the  user want to update the existing post
 
@@ -36,6 +37,7 @@ function PostForm({ post }) {
             })
 
             if (dbPost) {
+                console.log(dbPost,"updated");
                 navigate(`/post/${dbPost.$id}`)
             }
 
@@ -44,7 +46,7 @@ function PostForm({ post }) {
             //if the user is creating a new post
         } else {
             const file = await dbService.uploadFile(data.image[0]) //we are not checking if data.image[0] is present because image is a required field
-
+            console.log(file);
             if (file) {
                 data.featuredImage = file.$id
             }
@@ -52,8 +54,10 @@ function PostForm({ post }) {
                 ...data,
                 userId: userData.$id
             })
+            
 
             if (dbPost) {
+                console.log(dbPost,"new");
                 navigate(`/post/${dbPost.$id}`)
             }
         }
@@ -64,12 +68,11 @@ function PostForm({ post }) {
             return value
                 .trim()
                 .toLowerCase()
-                // .replace(/^[a-zA-Z\d\s]+/g,'-')
                 .replace(/\s/g, '-')
         } else {
             return '';
         }
-    }, [])
+    }, [watch])
 
     useEffect(() => {
         const subscription = watch((value, { name }) => {
@@ -86,7 +89,7 @@ function PostForm({ post }) {
 
 
     return (
-        <div className='p-5 flex font-semibold text-sm'>
+        <form className='p-5 flex font-semibold text-sm' onSubmit={handleSubmit(submit)}>
             <div className='w-2/3 px-5'>
                 <Input
                     label='Title: '
@@ -157,7 +160,7 @@ function PostForm({ post }) {
                     }
                 </Button>
             </div>
-        </div>
+        </form>
     )
 }
 

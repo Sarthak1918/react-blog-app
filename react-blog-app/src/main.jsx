@@ -10,9 +10,9 @@ import Signup from "./components/Pages/Signup.jsx"
 import Login from "./components/Pages/Login.jsx"
 import AllPosts from "./components/Pages/AllPosts.jsx"
 import AddPost from "./components/Pages/AddPost.jsx"
-import AddPost from "./components/Pages/AddPost.jsx"
 import EditPost from "./components/Pages/EditPost.jsx"
 import Post from "./components/Pages/Post.jsx"
+import Home from "./components/Pages/Home.jsx"
 
 
 const router = createBrowserRouter([
