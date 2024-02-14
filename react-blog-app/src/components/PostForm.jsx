@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import { useForm } from "react-hook-form"
 import { Button, Input, Select, RTE } from "./index.js"
 import dbService from '../appwrite/dbServerice.js'
@@ -9,7 +9,6 @@ function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, getValues, control } = useForm({
         defaultValues: {
             title: post?.title || '',
-            slug: post?.slug || '',
             content: post?.content || '',
             status: post?.status || 'active'
         }
@@ -28,16 +27,17 @@ function PostForm({ post }) {
 
             if (file) { //that means the user provided a new image.if the uses have not changed the (provided new image) then it will not come inside this if because in that case the value of file wii be null.
                 //delete the previous image
-                dbService.deleteFile(post.featuredImage)
+                const isDel = dbService.deleteFile(post.featuredImage)
+                console.log(isDel);
             }
 
             const dbPost = await dbService.updatePost(post.$id, {
                 ...data,
-                featuredImage: file ? file.id : post.featuredImage
+                featuredImage: file ? file.id : post.featuredImage,
             })
 
             if (dbPost) {
-                console.log(dbPost,"updated");
+                console.log(dbPost, "updated");
                 navigate(`/post/${dbPost.$id}`)
             }
 
@@ -49,43 +49,20 @@ function PostForm({ post }) {
             console.log(file);
             if (file) {
                 data.featuredImage = file.$id
-            }
-            const dbPost = await dbService.createPost({
-                ...data,
-                userId: userData.$id
-            })
-            
+                const dbPost = await dbService.createPost({
+                    ...data,
+                    userId: userData.$id
+                })
 
-            if (dbPost) {
-                console.log(dbPost,"new");
-                navigate(`/post/${dbPost.$id}`)
+
+                if (dbPost) {
+                    console.log(dbPost, "new");
+                    navigate(`/post/${dbPost.$id}`)
+                }
             }
+
         }
     }
-
-    const slugTransform = useCallback((value) => {
-        if (value && typeof value === 'string') {
-            return value
-                .trim()
-                .toLowerCase()
-                .replace(/\s/g, '-')
-        } else {
-            return '';
-        }
-    }, [watch])
-
-    useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === 'title') {
-                setValue('slug', slugTransform(value.title, {
-                    shouldValidate: true
-                }))
-            }
-        })
-
-        return () => subscription.unsubscribe()
-
-    }, [watch, slugTransform, setValue])
 
 
     return (
@@ -99,21 +76,6 @@ function PostForm({ post }) {
                         required: true
                     })}
                 />
-
-                <Input
-                    label="Slug: "
-                    placeholder="Slug"
-                    className="mb-2"
-                    {...register("slug", {
-                        required: true
-                    })}
-                    onInput={(e) => {
-                        setValue("slug", slugTransform(e.currentTarget.value), {
-                            shouldValidate: true
-                        })
-                    }}
-                />
-
 
                 <RTE
                     label="Content :"
@@ -130,33 +92,33 @@ function PostForm({ post }) {
                     type="file"
                     className="mb-1"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image",{
-                        required : post?false:true
+                    {...register("image", {
+                        required: post ? false : true
                     })}
                 />
                 {
                     post && (
                         <div>
-                            <img src={dbService.getFilePreview(post.featuredImage)} alt={post.title} className='rounded-lg'/>
+                            <img src={dbService.getFilePreview(post.featuredImage)} alt={post.title} className='rounded-lg' />
                         </div>
                     )
                 }
 
                 <Select
-                options={["active","inactive"]}
-                label="Status :"
-                className='mb-2 p-3 rounded-lg'
-                {...register("status",{
-                    required : true
-                })}
+                    options={["active", "inactive"]}
+                    label="Status :"
+                    className='mb-2 p-3 rounded-lg'
+                    {...register("status", {
+                        required: true
+                    })}
                 />
 
                 <Button
-                type='submit'
-                className={post? "bg-yellow-600 rounded-lg w-full hover:bg-yellow-500 transition-all duration-[0.3s]" : "bg-blue-600 rounded-lg w-full hover:bg-blue-500 transition-all duration-[0.3s]"}
+                    type='submit'
+                    className={post ? "bg-yellow-600 rounded-lg w-full hover:bg-yellow-500 transition-all duration-[0.3s]" : "bg-blue-600 rounded-lg w-full hover:bg-blue-500 transition-all duration-[0.3s]"}
                 >
                     {
-                        post?"Update":"Create"
+                        post ? "Update" : "Create"
                     }
                 </Button>
             </div>

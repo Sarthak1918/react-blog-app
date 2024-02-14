@@ -15,9 +15,9 @@ class DBservice {
         this.bucket = new Storage(this.client)     //bucket is for storing images
     }
 
-    async createPost({ title, slug, content, featuredImage, status, userId }) {  //we will get featuredImage which is a unique ID, when we successfully upload the file(image)
+    async createPost({ title, content, featuredImage, status, userId }) {  //we will get featuredImage which is a unique ID, when we successfully upload the file(image)
         try {
-            return await this.databases.createDocument(conf.appwriteDBId, conf.appwriteCollectionId, slug, {
+            return await this.databases.createDocument(conf.appwriteDBId, conf.appwriteCollectionId, ID.unique(), {
                 title, content, featuredImage, status, userId
             });
         } catch (error) {
@@ -25,8 +25,8 @@ class DBservice {
         }
     }
 
-    async updatePost(slug, { title, content, featuredImage, status }) {
-        return await this.databases.updateDocument(conf.appwriteDBId, conf.appwriteCollectionId, slug,
+    async updatePost(postId, { title, content, featuredImage, status }) {
+        return await this.databases.updateDocument(conf.appwriteDBId, conf.appwriteCollectionId, postId,
             {
                 title,
                 content,
@@ -35,9 +35,9 @@ class DBservice {
             })
     }
 
-    async deletePost(slug) {
+    async deletePost(postId) {
         try {
-            const deleted = await this.databases.deleteDocument(conf.appwriteDBId, conf.appwriteCollectionId, slug);
+            const deleted = await this.databases.deleteDocument(conf.appwriteDBId, conf.appwriteCollectionId, postId);
             if (deleted) {
                 return true;
             }
@@ -49,9 +49,9 @@ class DBservice {
         }
     }
 
-    async getPost(slug) {
+    async getPost(postId) {
         try {
-            return await this.databases.getDocument(conf.appwriteDBId, conf.appwriteCollectionId, slug);
+            return await this.databases.getDocument(conf.appwriteDBId, conf.appwriteCollectionId, postId);
 
         } catch (error) {
             console.log(error);

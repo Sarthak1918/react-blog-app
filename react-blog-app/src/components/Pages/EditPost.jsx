@@ -7,18 +7,18 @@ import {useParams,useNavigate} from "react-router-dom"
 
 function EditPost() {
     const[post,setPost] = useState(null)
-    const{slug} = useParams()
+    const{postID} = useParams()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if(slug){
-            dbService.getPost(slug).then((post)=>{
+        if(postID){
+            dbService.getPost(postID).then((post)=>{
                 if(post){
                     setPost(post)
                 }
             })
         }
-    },[slug,navigate])
+    },[postID,navigate])
   return post ?(
     <div className='w-full'>
         <PostForm post={post}/>

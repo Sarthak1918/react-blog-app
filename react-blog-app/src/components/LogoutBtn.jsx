@@ -13,7 +13,7 @@ function LogoutBtn() {
     }
 
     return (
-        <button onClick={logoutHandler} type="submit" className='hover:bg-blue-200 bg-blue-400 px-3 py-1 rounded-full font-medium transition-all'>Logout</button>
+        <button onClick={logoutHandler} type="submit" className='hover:bg-blue-200 bg-blue-400 px-3 py-1 rounded-full transition-all font-semibold'>Logout</button>
 
     )
 }

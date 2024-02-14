@@ -32,14 +32,14 @@ function Home() {
   }
   else if(authStatus && posts.length !== 0 ){
     return(
-        <div className='w-full flex flex-wrap gap-5 p-5'>
-        {
-            posts.map((post)=>{
-                return <div key={post.$id}>
-                    <PostCard $id={post.$id} title = {post.title} featuredImage={post.featuredImage} post={post}/>
-                </div>
-            })
-        }
+        <div className='flex justify-center'>
+        <div className='flex gap-5 p-5'>
+            <div className='flex flex-col gap-5'>{posts.filter((item, index) => index % 4 === 0).map((post) => <div className='' key={post.$id}><PostCard $id={post.$id} title={post.title} featuredImage={post.featuredImage} post={post} /></div>)}</div>
+            <div className='flex flex-col gap-5'>{posts.filter((item, index) => index % 4 === 1).map((post) => <div className='' key={post.$id}><PostCard $id={post.$id} title={post.title} featuredImage={post.featuredImage} post={post} /></div>)}</div>
+            <div className='flex flex-col gap-5'>{posts.filter((item, index) => index % 4 === 2).map((post) => <div className='' key={post.$id}><PostCard $id={post.$id} title={post.title} featuredImage={post.featuredImage} post={post} /></div>)}</div>
+            <div className='flex flex-col gap-5'>{posts.filter((item, index) => index % 4 === 3).map((post) => <div className='' key={post.$id}><PostCard $id={post.$id} title={post.title} featuredImage={post.featuredImage} post={post} /></div>)}</div>
+            <div className='flex flex-col gap-5'>{posts.filter((item, index) => index % 4 === 4).map((post) => <div className='' key={post.$id}><PostCard $id={post.$id} title={post.title} featuredImage={post.featuredImage} post={post} /></div>)}</div>
+        </div>
     </div>
     )
   }

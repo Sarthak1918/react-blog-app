@@ -25,7 +25,7 @@ function RTE({name,control,label,defaultValue=""}) {
             { value: 'Email', title: 'Email' },
           ],
         }}
-        initialValue="Welcome to TinyMCE!"
+        initialValue={defaultValue}
         onEditorChange={onChange}
       />
       )}
