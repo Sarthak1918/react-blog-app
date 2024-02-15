@@ -6,12 +6,14 @@ import authService from '../appwrite/auth.js'
 import { login as authLogin } from '../store/authSlice.js'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from "react-redux"
+import useToast from './useToast.js'
 
 function Signup() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [error, setError] = useState("")
     const { register, handleSubmit } = useForm()
+    const notify = useToast()
 
     async function signup(data) {
         try {
@@ -20,6 +22,7 @@ function Signup() {
                 const userData = await authService.getCurrentUser()
                 if (userData) {
                     dispatch(authLogin(userData))
+                    notify("Signed up successfully","success")
                 }
                 navigate("/")
             }

@@ -89,11 +89,10 @@ class DBservice {
 
     async deleteFile(fileId) { //here fileID is featuredImage,We will get this when we successfully upload image file
         try {
-            await this.bucket.deleteFile(
+            return await this.bucket.deleteFile(
                 conf.appwriteBucketId,
                 fileId
             )
-            return true;
         } catch (error) {
             console.log(error);
             return false

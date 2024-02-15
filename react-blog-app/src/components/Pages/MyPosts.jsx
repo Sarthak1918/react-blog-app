@@ -30,7 +30,7 @@ function MyPosts() {
             </div>
         )
     }else{
-        <div className='w-full text-3xl p-10 text-center'>
+        return <div className='w-full text-3xl p-10 text-center'>
             You haven't created any post yet.Create Now!!!
         </div>
     }

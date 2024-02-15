@@ -13,6 +13,7 @@ import AddPost from "./components/Pages/AddPost.jsx"
 import EditPost from "./components/Pages/EditPost.jsx"
 import Post from "./components/Pages/Post.jsx"
 import Home from "./components/Pages/Home.jsx"
+import ToastComp from './components/ToastComp.jsx'
 
 
 const router = createBrowserRouter([
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastComp/>
       <RouterProvider router={router}/>
     </Provider>
   </React.StrictMode>,

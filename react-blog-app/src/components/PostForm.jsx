@@ -4,6 +4,7 @@ import { Button, Input, Select, RTE } from "./index.js"
 import dbService from '../appwrite/dbServerice.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux"
+import useToast from './useToast.js'
 
 function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, getValues, control } = useForm({
@@ -15,6 +16,7 @@ function PostForm({ post }) {
     })
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData)
+    const notify = useToast()
 
 
     async function submit(data) {  //here this data we will get when form is submitted as we are using react-hook-form,we will get data here.
@@ -27,8 +29,8 @@ function PostForm({ post }) {
 
             if (file) { //that means the user provided a new image.if the uses have not changed the (provided new image) then it will not come inside this if because in that case the value of file wii be null.
                 //delete the previous image
-                const isDel = dbService.deleteFile(post.featuredImage)
-                console.log(isDel);
+                dbService.deleteFile(post.featuredImage)
+
             }
 
             const dbPost = await dbService.updatePost(post.$id, {
@@ -38,6 +40,7 @@ function PostForm({ post }) {
 
             if (dbPost) {
                 console.log(dbPost, "updated");
+                notify("Post updated successfully", "success")
                 navigate(`/post/${dbPost.$id}`)
             }
 
@@ -57,6 +60,7 @@ function PostForm({ post }) {
 
                 if (dbPost) {
                     console.log(dbPost, "new");
+                    notify("Post created successfully", "success")
                     navigate(`/post/${dbPost.$id}`)
                 }
             }

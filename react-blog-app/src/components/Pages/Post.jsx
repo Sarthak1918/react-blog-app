@@ -4,6 +4,7 @@ import dbService from "../../appwrite/dbServerice";
 import { Button, Container } from "../index.js";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import useToast from "../useToast.js";
 
 export default function Post() {
     const [post, setPost] = useState(null);
@@ -13,6 +14,7 @@ export default function Post() {
     const userData = useSelector((state) => state.auth.userData);
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
+    const notify = useToast()
 
     useEffect(() => {
         if (postID) {
@@ -26,7 +28,9 @@ export default function Post() {
     const deletePost = () => {
         dbService.deletePost(post.$id).then((status) => {
             if (status) {
-                dbService.deleteFile(post.featuredImage);
+                dbService.deleteFile(post.featuredImage).then(()=>{
+                    notify("Post deleted","success")
+                })
                 navigate("/");
             }
         });
@@ -39,17 +43,18 @@ export default function Post() {
                     <img
                         src={dbService.getFilePreview(post.featuredImage)}
                         alt={post.title}
-                        className="rounded-xl"
+                        className="rounded-xl max-w-4xl"
+
                     />
 
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
+                                <Button bgColor="bg-green-600" className="mr-3 hover:bg-green-500">
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
+                            <Button bgColor="bg-red-600" className="hover:bg-red-500" onClick={deletePost}>
                                 Delete
                             </Button>
                         </div>
